@@ -1,0 +1,17 @@
+1.a)
+grep -c ">" protein.fa
+42388
+1.b)
+awk '/>/ {max = max + 1} END{print max}' protein.fa
+42388
+2.a)
+grep -v '>' protein.fa | tr -d '\n' | wc -m
+28270157
+2.b)
+awk '! />/ {total = total + length($0)} END {print total}' protein.fa
+28270157
+3. 
+awk -v 'RS=>' -v 'FS=\n' '{print $1"\n"$2}' protein.fa > proteinSingle.fa
+4.
+awk '/[K|R]$/ {count+=1} END {print count}' proteinSingle.fa 
+5169

@@ -1,0 +1,21 @@
+GPCR questions
+1.
+echo "$(($(head -1 gpcr.tab | grep -o '\t' | wc -l) + 1))" >> ass1.txt
+7 columns
+
+2.
+wc -l gpcr.tab
+29305 lines including header
+
+3.
+grep "Homo sapiens" gpcr.tab | wc -l
+2244
+Searching for just Human would include hits from human viruses
+
+4.
+tail -n+2 gpcr.tab | cut -f7 | sort -n | head
+The shortest sequence is 10 in length
+
+5.
+tail -n+2 gpcr.tab | cut -f6 | sort | uniq | wc -l
+3492 species (including types like "unknown monkey")

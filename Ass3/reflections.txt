@@ -1,0 +1,70 @@
+Part 1:
+
+The underlying agreement of all these papers is that computational biology/bioinformatics (CB/BIO) is different from a lot of other fields as it combines two very different fields. The biological (usually wet lab) field and the computational field. This causes the implications that neither of the standard practices from either one of these fields is a good fit for working on a CB/BIO project as and of itself. Instead we need to draw practices from both of these fields and also combine them in such a way that it suits the individual as there is no "one size fits all".
+At its core it all comes down to communication, both to the audience of the research and to the researcher. The better documented and automated a project is, the easier it is to both rerun and verify, for audience and researcher alike.
+Some of these techniques are universal such as using a version control system for your code and to use a lab book but a common consensus of all these papers is that the best system is the one that is tailored for the researcher specifically so it is used.
+
+
+
+Paper 1: A quick guide to organizing computational biology projects
+This paper gives a very good helicopter view on computational projects, it talks about a possible implementation of a computational biology project and emphasis the importance of not following it blindly but to use it as a guideline to create your own workflow.
+
+Paper 2: Ten simple rules for reproducible computational research
+This paper dives more into the data part of a project and gives some good guidelines on data management for reproducibility. Especially the importance of keeping raw data and intermediate data, both for ease of debugging but also for reproducibility.
+
+Paper 3: So you want to be a computational biologist?
+This paper is a light version of paper one with a more detailed emphasis on the software pipeline. It points out a very important point in that CB/BIO projects are not software development projects. The focus should be on the underlying scientific question, not on software development which is usually just a tool. 
+This can usually be boiled down to:
+Use the right tool for the job, someone will most likely have done it already and don't optimize prematurely.
+
+Paper 4: Best practices for scientific computing
+Looking more specifically at the automation/software part of a project it draws out some very good best practices. It reinforces what a lot of the other papers says in the way of reproducibility of the pipeline but also focuses more the actually technicalities such as increment your software in small steps and plan for mistakes, i.e. make sure your code breaks if the wrong data is calculated.
+
+
+Paper 5: Ten simple rules for the open development of scientific software
+This paper also focus more on the software side of a project but takes a more helicopter view compared to paper 2 and 4. It also pushes the message of the importance of community more. Both transparency and promotion is an important part. By having a software that is easy to use, easy to understand and that many people use you will also get feedback which can strengthen your project.
+
+
+
+
+
+
+
+Part 2:
+
+Ten recommendations for creating usable bioinformatics command line software
+Case example of the "scampi2" tool. http://scampi.cbr.su.se/
+
+1: Print something if no parameters are supplied
+Scampi prints out the required syntax (./SCAMPI_run.pl <fasta_file> <output file>) if no parameters are given. However, if two parameters are given but they are not valid files a general IOError occurs in an underlying python file. (see further point 6).
+
+2: Always have a "-h" or "-help" switch
+Scampi lacks switches altogether. The only help is the syntax printed if no parameters are given. The only help that is supplied is the readme in the root of the github project.
+
+3: Have a "-v" or "-version" switch
+See 2. All switches are lacking.
+
+4: Do not use stdout for messages and errors
+This causes quite a few problems with scampi. When it is compiled and installed it hardcodes every path. Submodules then assume all of these are correct but if any problems occur the errors are not caught and underlying python scripts print the errors to stdout as intermediate files which are then trying to be parsed which results in generic errors. The only way to see this is to inspect the temporary files that are created in the /tmp/ folder.
+
+5: Always raise an error if something goes wrong
+Apart from the error of no parameters or wrong number of parameters pretty much none of the possible (known) errors are caught and handled. In best cause they crash the program but most often the program fails silently.
+
+6: Validate your parameters
+No validation is done, especially on existence of the onput file and valid path for the output. Instead a generic IOError is produced and the program crashes.
+
+7: Don't hard-code any paths
+No paths are directly hardcoded as installation requires compiling from source. However, after compilation multiple pats are absolute paths which cases the program to be static and not easily moved without recompiling.
+
+8: Don't pollute the PATH
+This does create a problem as multiple sub python modules are installed in the same directory as the master script and are made executable. They also use fairly generic names which might cause clashes.
+
+9: Check that your dependencies are installed
+Scampi does have few dependencies on libraries and instead relies on that python 2, perl and a c-compiler are installed. It does not however validate this and instead just fails if the dependencies are not satisfied.
+
+10: Don't distribute bare JAR files
+This Scampi does well in that it does not use java, 2 thumbs up!
+
+Conclusions: 
+Overall Scampi is as many other biotools, lacking in good practices for command line tools. A vast improvement could be achieved but introducing validation of parameters and error handling, especially between the different submodules.
+
