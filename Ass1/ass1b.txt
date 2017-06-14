@@ -11,7 +11,7 @@ grep -v '>' protein.fa | tr -d '\n' | wc -m
 awk '! />/ {total = total + length($0)} END {print total}' protein.fa
 28270157
 3. 
-awk -v 'RS=>' -v 'FS=\n' '{print $1"\n"$2}' protein.fa > proteinSingle.fa
+awk -v 'RS=>' -v 'FS=\n' '{print ">"$1"\n"$2}' protein.fa > proteinSingle.fa
 4.
-awk '/[K|R]$/ {count+=1} END {print count}' proteinSingle.fa 
+gawk '! />/ {print}' proteinSingle.fa | gawk '/[KR]/' | gawk 'BEGIN {RS="K|R"}{print}'
 5169
