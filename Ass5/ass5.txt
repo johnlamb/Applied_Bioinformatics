@@ -2,7 +2,7 @@
 select name from species;
 
 2.
-insert into species values('Ss','Sus scrofa','Sus');
+insert into species values('Ss','Sus scrofa','Wild Boar');
 
 3.
 select accession from protein where length(sequence)>1000; 
