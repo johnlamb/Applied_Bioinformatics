@@ -1,0 +1,10 @@
+1.
+show databases like 'felis%';
+
+2.
+	
+3.
+select biotype, count(*) from gene group by biotype order by count(*) desc;
+
+4.
+select g.description, count(transcript_id) transcripts from gene g, transcript t where g.stable_id in('ENSG00000012048','ENSG00000139618') and g.gene_id=t.gene_id group by g.description;

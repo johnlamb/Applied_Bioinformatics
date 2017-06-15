@@ -1,0 +1,15 @@
+1.
+select name from species;
+
+2.
+insert into species values('Ss','Sus scrofa','Sus');
+
+3.
+select accession from protein where length(sequence)>1000; 
+
+4.
+select distinct s.name from familymembers fm, protein p,species s where fm.protein=p.accession and fm.family='NHR3' and p.species=s.abbrev;
+
+5.
+select s.name, count(p.accession) from protein p, species s where p.species=s.abbrev group by s.name order by count(p.accession) desc;
+
